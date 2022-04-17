@@ -35,3 +35,11 @@
 ## 면접 스터디 방식
 여러 분야 중 1가지를 선택하여 금주에 준비해온 스터디 내용을 발표를 통해 공유합니다.
 (자료구조, 알고리즘, 네트워크, 컴퓨터구조, 운영체제, 데이터베이스, 디자인패턴(소프트웨어공학), 보안)
+
+
+## 도움되는 Github Repo😎
+[JaeYeopHan/Interview_Question_for_Beginner](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
+[WooVictory/Ready-For-Tech-Interview](https://github.com/WooVictory/Ready-For-Tech-Interview)
+[gyoogle/tech-intervew-for-developer](https://github.com/gyoogle/tech-interview-for-developer)
+
+[jojoldu/junior-recruit-scheduler](https://github.com/jojoldu/junior-recruit-scheduler)
