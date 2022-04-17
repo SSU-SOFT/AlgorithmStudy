@@ -1,11 +1,12 @@
 # Algorithm
 알고리즘 및 면접 스터디 템플릿입니다.
 
-# 이번주 문제 (4월 둘째주)
+# 이번주 문제 (4월 셋째주)
+- [문자열 게임2](https://www.acmicpc.net/problem/20437) - 문자열
+- [블로그](https://www.acmicpc.net/problem/21921) - 투포인터
+
+
 - [일루미네이션](https://www.acmicpc.net/problem/5547)
-- [피아노 체조](https://www.acmicpc.net/problem/21318)
-- [생태학](https://www.acmicpc.net/problem/4358)
-- [A -> B](https://www.acmicpc.net/problem/16953)
 
 ## 리뷰 작성 방식
 1. 코드관련 리뷰는 __Commits__ 에 작성합니다.
