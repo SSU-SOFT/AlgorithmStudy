@@ -38,7 +38,6 @@
 (자료구조, 알고리즘, 네트워크, 컴퓨터구조, 운영체제, 데이터베이스, 디자인패턴(소프트웨어공학), 보안)<br/>
 운영체제 - tkdxor97<br/>
 데이터베이스 - geun9716<br/>
-네트워크(및 웹) - tech-hoon<br/>
 
 ## 도움되는 Github Repo😎
 [JaeYeopHan/Interview_Question_for_Beginner](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)<br/>
