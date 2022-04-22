@@ -2,11 +2,7 @@
 알고리즘 및 면접 스터디 템플릿입니다.
 
 # 이번주 문제 (4월 셋째주)
-- [문자열 게임2](https://www.acmicpc.net/problem/20437) - 문자열
-- [블로그](https://www.acmicpc.net/problem/21921) - 투포인터
-- [표 편집](https://programmers.co.kr/learn/courses/30/lessons/81303) - 카카오 채용연계형 인턴쉽 문제
-- [피로도](https://www.acmicpc.net/problem/22864) - 완전탐색
-- [일루미네이션](https://www.acmicpc.net/problem/5547)
+- [호텔](https://www.acmicpc.net/problem/1106)
 
 ## 리뷰 작성 방식
 1. 코드관련 리뷰는 __Commits__ 에 작성합니다.
