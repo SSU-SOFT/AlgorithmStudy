@@ -17,59 +17,43 @@ mx = [-1, -1, 0, 0, 1, 1]
 my1 = [-1, 0, -1, 1, -1, 0]
 my2 = [0, 1, -1, 1, 0, 1]
 
-def IsInside(x, y):
-    result = True
-    q = deque([(x, y)])
-
-    if Inside[x][y] != 0: #DP
-        if Inside[x][y] == 1: # Inside
-            return True
-        elif Inside[x][y] == -1: # OutSide
-            return False
-    
-    tmp = []
-
-    while q:
-        r, c = q.popleft()
-        tmp.append((r, c))
+def IsInside(start):
+    st = [start]
+    while st:
+        r, c = st.pop()
+        G[r][c] = -1
+        if visited[r][c]:
+            continue
+        visited[r][c] == True
 
         for i in range(6):
             row = r + mx[i]
-            
             if row % 2 == 0: # row is Even
                 col = c + my1[i]
             else:            # row is Odd
                 col = c + my2[i]
-            
             # Index를 넘어가는 경우 outside
             if row < 0 or H <= row or col < 0 or W <= col:
-                result = False
                 continue
+            # Index를 넘어가지 않고 next node
+            if not visited[row][col] and G[row][col] == 0:
+                st.append((row, col))
 
-            if not (row, col) in tmp and G[row][col] == 0:
-                q.append((row, col))
-    
-    if result:
-        for x, y in tmp:
-            Inside[x][y] = 1
-    else:
-        for x, y in tmp:
-            Inside[x][y] = -1
-    return result
-
-def bfs(start):
+def dfs(start):
     result = 0
-    q = deque([start])
+    st = [start]
 
-    while q:
+    while st:
         rounds = 0
-        r, c = q.popleft()
+        r, c = st.pop()
+        
+        #check in
         if visited[r][c]:
             continue
         visited[r][c] = True
+
         for i in range(6):
             row = r + mx[i]
-            
             if row % 2 == 0: # row is Even
                 col = c + my1[i]
             else:            # row is Odd
@@ -84,8 +68,8 @@ def bfs(start):
             # Index를 넘어가지 않는 경우
             if not visited[row][col]:
                 if G[row][col] > 0:
-                    q.append((row, col))
-                elif not IsInside(row, col):
+                    st.append((row, col))
+                elif G[row][col] < 0:
                     rounds += 1
         
         G[r][c] = rounds
@@ -94,8 +78,25 @@ def bfs(start):
     return result
 
 answer = 0
+
+#Top & Bottom
+for i in range(W):
+    if not visited[0][i] and G[0][i] == 0:
+        IsInside((0, i))
+    if not visited[H-1][i] and G[H-1][i] == 0:
+        IsInside((H-1, i))
+    
+# Left & Right
+for i in range(H):
+    if not visited[i][0] and G[i][0] == 0:
+        IsInside((i, 0))
+    if not visited[i][W-1] and G[i][W-1]==0:
+        IsInside((i, W-1))
+# pprint(G)
+# print()
 for i in range(H):
     for j in range(W):
         if not visited[i][j] and G[i][j] == 1:
-            answer += bfs((i, j))
+            answer += dfs((i, j))
+# pprint(G)
 print(answer)
