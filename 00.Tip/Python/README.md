@@ -380,3 +380,305 @@ __map__
 
 __filter__
 - 각 요소에 function 함수를 적용하여 참이 나오는 것만 반환
+
+# Object-Oriented Programming (객체 지향 프로그래밍)
+
+### Procedure Programming(절차 지향 프로그래밍)
+: 절차를 차례대로 작성하는 프로그래밍 방식.
+- 중간의 코드를 수정한다면? -> 모든 코드의 수정이 필요할 수 있음.
+- 협업을 한다면? 한 프로그래머의 수정 사항이 다른 프로그래머에게 큰 영향
+
+## OOP
+- 코드를 객체 단위로 나눌 필요를 느끼고 객체 단위 코드 수정 및 분업을 한 프로그래밍 방식.
+
+__Class & Object__
+: 각 종류(Class)당 객체(Object)가 하나만 존재하진 앟는다.
+그러나 각 객체의 데이터(Attr)은 달라도 행동(Method)는 동일하다.
+ex) 고객 - 조호준, 홍관진, 회사- 로진택배, 한진택배
+
+__Class Declaration__
+- 클래스 이름은 CamelCase가 관습적으로 사용됨.
+    - snake_case -> attr, functions를 사용.
+    - CamelCase -> class에 사용.
+- 부모 클래스가 지정되지 않았을 시 object가 자동 상속
+
+__Class Attribute__
+```
+class Courier(object):
+    NATIONALITY = 'KOR'
+```
+- 클래스 전체가 공유하는 속성 값.
+- 모든 객체(instance)가 같은 값을 참조. Like global variable
+- 남용하면 스파게티 코드의 원인.
+- `클래스.attribute` 형태로 접근 (`객체.attribute` 형태로도 가능)
+
+__Class Method__
+- 각 객체에 적용이 가능한 함수
+- 현재 수정하고나 하는 객체를 self 로 지칭(관습적, this라고 지칭해도 무방)
+    - C와 java에서의 this와 같음.
+- Class.method(instance, args) 혹은 instance.method(args, ...)
+
+__Class Attribute__
+- 각각의 객체가 개인적으로 가지는 값
+- instance.attr의 형태로 접근
+- class 형태로 선언되어 나온 객체는 언제 어디서든 attribute 수정 가능
+-> 그러나 나중에 추가한다면 생성자에서 None으로라도 선언해두는 것이 좋음.
+
+__Magic Method:Initializer__
+- 메소드 이름이 `"__METHOD__"` 형태일 경우 특별한 Method
+1. 생성자(`__init__`)
+    - 객체를 생성할 때 호출됨.
+    - 일반적으로 객체의 속성을 초기화 하는데 사용.
+    - Class 형태로 호출하여 객체 생성
+    - 거의 유이하게 정해진 Argument format이 없는 Magic Method
+2. 소멸자(`__del__`)
+    - 객체를 소멸할 때 호출됨
+    - 파이썬은 Garbage Collector로 메모리 관리
+        - 객체가 어디에서도 참조되지 않을 때 객체가 소멸
+        - 소멸 타이밍을 잡기 어려워 잘 사용되지 않음.
+    - del 명령어
+        - 변수 이름을 명시적으로 없애기 가능
+        - `참조를 명시적으로 삭제하는 것`이지 객체를 명시적으로 삭제하는 것이 아님.
+
+## Three Elements of OOP
+- 상속
+- 다형성
+- 캡슐화
+- 직렬화
+### 상속(Inheritance)
+: 기존에 구현틀 상속 -> 새로운 틀 제작
+- 기존의 틀: 부모 Class, 새로운 틀 : 자식 Class
+- 자식 Class에서는 부모의 기능을 이용 가능
+- 같은 기능을 재작성할 필요가 없음.
+```
+class Courier(object):
+예약어 클래스이름(부모클래스)
+```
+### 다형성 (Polymorphism)
+: 같은 이름의 메소드를 다르게 작성
+- 각 자식 클래스가 다른 클래스와 차별
+- 부모 메소드로 접근시 자식 메소드 실행
+- 외부에서는 똑같은 API로 접근
+- 고객 입장에서는 코드 수정이 없음.
+
+파이썬에서는 동적 타이핑
+- 고객 입장에서는 클래스 구분 X -> 같은 이름의 메소드가 있으면 실행(Duck Typing)
+
+> Python에서의 상속과 다형성
+> - 다중 상속 지원 -> 죽음의 다이아몬드 초래.
+> - super 내장 함수를 이용하여 상위 클래스 접근 가능.
+> -> JAVA의 경우에는 interface만 다중상속 가능.
+
+__Static & Class Method__
+파이썬에는 2가지 정적 함수 존재
+    - instance.method 형태로 접근 가능
+    - 일반적으로 Class.method 형태로 사용.
+- `Static Method`
+    - staticmethod 꾸밈자 사용.
+    - 특별한 argument를 받지 않음
+    - 일반적으로 class내 유틸 함수로 사용
+    - Class를 일종으 Namespace로 사용
+- `Class Method` (Python )
+    - Classmethod 꾸밈자 사용.
+    - 호출된 class인 cls를 받음.
+    - factory 패턴에서 사용.
+```
+class Number:
+    Constant = 19
+
+    @staticmethod
+    def static_factory():
+        obj = Number()
+        obj.value = Number.Constant
+        return obj
+    
+    @classmethod
+    def class_factory(cls):
+        obj = cls()
+        obj.value = cls.Constant
+        return obj
+
+class Complex(Number):
+    def sum():
+        pass
+
+print(Number.static_factory(), Number.class_factory()) # Number, Number
+print(Complex.static_factory(), Complex.class_factory()) # Number, Complex
+```
+__-> 상속하면 차이가 발생__
+
+
+### 가시성, 캡슐화(Visibility)
+: 다른 클래스에게 객체의 내부를 감추기
+- 캡슐화, 정보 은닉
+- 클래스 간 간섭 최소화
+- 최소한의 정보만을 지정된 API로 공개
+- C나 Java에선 private & protected로 구현
+
+__Python에서의 가시성__
+- 명시적인 private & protected 범위가 없음 -> 모두 public
+- private 변수/함수 이름 앞에 __를 붙임 (밑줄 2개) -> 관습적
+- protected 변수/함수 이름 앞에 _를 붙임 (밑줄 1개) -> 관습적
+- "__"의 경우 변수명 앞에 Class 이름을 넣어 Mangling을 진행 - 자식과 이름이 안 겹침.
+- private와 protected는 vscode 등의 코드 완성에서는 안보임.
+- 굳이 구분하는 이유 -> 가독성 때문 (API를 이용하는 사람에게 알려주기 용)
+
+__Property__
+- get과 set을 정의하기위해 get과 set을 붙이는 방식이 Pythonic 하지 못함.
+- Property를 통해 Getter, Setter를 명시적 설정 가능
+- Encapsulation 등에 활용. 
+
+### Magic Methods
+
+__indexing 메소드__
+- `__getitem__`, `__setitem__` 로 [] indexing을 재정의
+ex) Numpy, Pandas 등
+
+
+__Length 메소드__
+- `__len__`
+
+__Typing__
+- 객체를 다른 타입으로 형 변환할 때 호출.
+- `__str__`, `__int__`, `__float__`, `__bool__` 등이 존재
+
+__Comparison Operator__
+- A < B를 호출 -> A.__lt__(B)를 호출
+- 이외에도 `__le__`, `__gt__`, `__ge__`, `__eq__`, `__ne__` 가 존재
+
+__Arithmetic Operator__
+- `__add__`, `__sub__`, `__mul__` 등이 존재 -> Out-place
+- In-place 버전인 `__iadd__`가 존재(이 경우 self를 직접 수정 필요)
+
+__Callable__
+- 생성된 객체를 함수처럼 호출 가능하게 만듦.
+- `instance(args, ...)`가 `instance.__call__`을 호출
+
+__Iterable__
+```
+seq = [1,2,3,4,5]
+
+iterator = iter(seq)
+while True:
+    try:
+        elem = next(iterator)
+    except StopIteration:
+        break
+    print(elem)
+```
+- iter 내장함수 : 해당 객체의 순환자를 반환. `__iter__`
+- next 내장함수 : 해당순환자를 진행. `__next__`
+- Generator는 자동으로 `__iter__`와 `__next__`가 구현
+
+__Context Manager__
+- 소멸자 대용으로 특정 Block 입장/종료 시 자동으로 호출
+- File description등을 자동으로 닫고자 할 때 사용.
+- 코딩할 일은 없으나 with 구문을 사용하는 일은 많음.
+
+## Module & Package
+- 다른 사람이 완성한 함수와 클래스를 사용하기 위함.
+- 내장 & 외부 라이브러리 사용
+
+__Import__
+- 파이썬에선 모듈 == .py파일
+- import 구문을 사용하여 모듈을 불러옴.
+    - 해당 파일 최상위에 선언된 모듈의 요소들을 불러오기 가능.
+    - module.element 식으로 사용.
+- . 혹은 ..없이는 절대 경로 기준(Python이 실행되는 곳)
+- import 문은 import 된 .py파일을 처음부터 끝까지 실행시킨다.
+- 만약 해당 모듈을 main으로 했을 때 특정 Block을 실행시키고 싶다면?
+    - `__name__` 기본 변수를 `"__main__"`으로 설정
+    - `__name__` 기본 변수는 현재 모듈의 이름을 보여줌.
+```
+import directory.functions
+print(directory.functions.add(1, 2))
+
+import directory.functions as func
+print(func.add(1,2))
+
+from directory import functions
+print(functions.add(1,2))
+
+from directory.functions import add
+print(add(1,2))
+
+from directory.functions import * 
+print(add(1, CONSTANT))                 # 권장하지 않음
+```
+
+- 최상위에선 상대경로가 작동되지 않음.
+    - 최상위를 거치는 경우 포함
+    - 일반적으로 프로젝트 이름으로 폴더를 만들어 코드를 넣음.
+    - 부모 폴더 접근을 위해서는 모듈 형태로 실행 필요. `python -m test_nlp.dir1.sub_main`
+
+- 파이썬은 강력하고 다양한 표준 라이브러리를 가지고 있음.
+- 파이썬은 GIL 때문에 사실상 싱글 쓰레드
+
+> GIL이란?
+Global Interpreter Lock의 약자로 파이썬 인터프리터가 한 스레드만 하나의 바이트 코드를 실행 시킬 수 있도록 해주는 Lock. 하나의 스레드에 모든 자원을 허락하고 그 후에는 Lock을 걸어 다른 스레드는 실행할 수 없게 막아버린다.
+python은 garbage collection과 reference counting을 통해 할당된 메모리를 관리하는데, 모든 객체는 reference count인 해당 변수가 참조된 수를 저장한다. 멀티스레드인 경우 여러 스레드가 하나의 객체를 사용한다면 reference count의 동기화 문제가 발생하기 때문에 GIL을 통해서 이러한 비효율을 방지한 것.
+[참조](https://ssungkang.tistory.com/entry/python-GIL-Global-interpreter-Lock%EC%9D%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C)
+
+### 만약 파이썬 표준 라이브러리로 해결할 수 없다면?
+- 인터넷 상의 오픈 소스 라이브러리 설치 필요
+- 수치 그래프 그리기 -> matplotlib
+- 웹 서버 만들기 -> flask
+- GPU 연산 사용하기 -> cupy
+- 딥러닝 전용 라이브러리 -> tensorflow & pytorch
+
+### 웹 서버 프로젝트와 딥러닝 프로젝트가 따로 있다면?
+- 한 파이썬 위에 둘 다 설치한다 -> 관리가 어려움.
+- 각각 다른 환경 & 파이썬에서 돌리고 싶은데...
+-> 패키지 관리자가 필요.
+
+## Advanced DataStructure
+
+### Stack
+: 선입후출(FILO)방식의 자료구조. List를 사용. 동적배열이기 때문에 push와 pop이 O(1)
+
+### Queue
+: 선입선출(FIFO)방식의 자료구조. List는 한쪽 방향만 열려있는 동적 배열이기 때문에 처음위치 삽입 혹은 삭제가 O(N)이 걸림. 중간 참조가 오래걸리나 큐 구조에선 필요 없음 -> collection Library에 deque를 사용. (이중 연결 리스트로 구현됨.)
+
+### Priority Queue (heap)
+: 최소 / 최대값을 빠르게 구하기 위한 자료구조
+- min/max 함수 사용 -> O(N)
+- 이진 검색을 위해선 내부 정렬이 필요.
+- 입력할 때마다 sorted 사용 -> O(N log N)
+- 리스트 정렬 후 값을 중간에 삽입/삭제 -> O(N)
+-> 파이썬에서는 heapq Library의 heapq를 사용.
+- heap push, O(log N)
+- heap pop, O(log N)
+
+### Defaultdict
+: Dictionary의 기본 값을 지정 가능. 생성자를 받으면 됨. ex) lambda : 2 , int()
+
+### Counter
+: 값을 세는데 최적화된 데이터 구조. dictionary 처럼 생성 및 관리가 가능.
+, 집합 연산 지원(횟수 더하기, 교집합, 합집합, 차집합)
+
+### Named Tuple
+: 데이터만을 담기 위한 클래스를 사용하는 경우가 있음. 숫자로 Indexing이 불가능. 튜플로 관리하는 경우에는 Attribute명으로 접근이 불가능
+-> Named Tuple : 각 튜플 원소에 이름 붙이기가 가능하고 Unpacking 가능
+
+```
+from collections import namedtuple
+
+Coords3D = namedtuple("Coords3D", ["x", "y", "z"])
+
+point = Coords3D(10, 20, z=30)
+print(point.x)
+print(point[1])
+print(*point)
+
+point[1] += 1 # Error 튜플이기 때문에 데이터를 변경할 수 없음.?
+```
+
+### Dataclass
+: Pythonic한 데이터 클래스를 위해서 dataclasses의 dataclass 데코레이터 활용.
+
+
+
+
+
+
+
