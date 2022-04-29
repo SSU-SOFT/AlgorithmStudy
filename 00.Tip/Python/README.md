@@ -675,10 +675,262 @@ point[1] += 1 # Error 튜플이기 때문에 데이터를 변경할 수 없음.?
 
 ### Dataclass
 : Pythonic한 데이터 클래스를 위해서 dataclasses의 dataclass 데코레이터 활용.
+## I/O
+### Standard Input & Output
+- print(args, sep=" ", end="\n)
+- input() -> str
+    -> 따로 Redirection이 없으면 콘솔 입/출력
 
+### File
 
+__File Open__
+: 파이썬은 File Descriptor를 열기 위하여 open 내장 함수 사용.
 
+```
+fd = open("<파일이름>", "<접근 모드>", encoding="utf8")
 
+fd.close() # 명시적으로 close 해주어야함.
+```
 
+```
+with open("text.txt", "r") as fd: # with 구문은 자동으로 닫아줌.
+    contents = fd.read()
 
+print(contents)
+```
+
+### Directory
+- os 라이브러리로 플랫폼 독립적인 폴더 생성 가능
+  - 파이썬에선 Windows, Unix 모두 "/"로 폴더를 나타냄
+- path 라이브러리로 경로 관련 연산 가능
+
+```
+# 하위 폴더 한번에 만들기, exist_ok 옵션으로 이미 있으면 무시할지 확인
+os.makedirs("test/a/b/c", exist_ok=True)
+```
+
+__Listing Directory__
+- listdir 함수로 폴더 내 파일/하위 폴더 검색
+- glob 라이브러리로 유닉스 스타일 경로명 패턴 확장 적용.
+
+### Pickle - 권장 X
+- 파이썬 객체를 그대로 저장하고 싶을 때 객체를 직렬화 하여 파일로 저장.
+- 장점 : 쓰기 쉽고, 파이썬 개체를 그대로 저장
+- 단점 : 파이썬에서만 읽을 수 있으며, 보안 문제가 있다. -> 신뢰할 수 있는 개체만 불러올 것. 
+
+__Class Pickling__
+- Class 객체를 직렬화하기 위해선 해당 클래스가 직렬화 가능이 필요.
+  - 모든 속성이 직렬화 가능 필요.
+- 저장된 객체 pickle을 로드하고 싶으면 미리 해당 클래스 선언 필요
+  - 해당 클래스 정보가 없다면 역직렬화 불가능.
+
+### CSV (Comma Seperate Values)
+- 표 데이터를 프로그램에 상관없이 쓰기 위한 데이터 형식
+  - 필드를 쉼표(,)로 구분한 텍스트 파일
+  - 탭(TSV), 공백(SSV) 등으로 구분하기도 함.
+  - 통칭하여 Character Separated Values(CSV)라 지칭.
+- Readlines로 읽을 수 있으나 <- 구현이 귀찮음.
+> 데이터 안에 ,가 들어간 경우 "," 따옴표 안에 존재하는지 확인하고 파싱해야 함.
+
+__csv Library__
+```
+import csv
+
+with open('test.csv', 'r') as fd:
+    reader = csv.reader(fd, 
+        delimiter = ',',
+        quetechar = '"',
+        quoting = csv.QUOTE_MINIMAL
+    )
+
+    for entry in reader:
+        print(entry)
+```
+
+```
+import csv
+
+with open('test.csv', 'w') as fd:
+    wirter = csv.writer(fd,
+        delimiter = ',',
+        quetechar = '"',
+        quoting = csv.QUOTE_MINIMAL
+    )
+
+    writer.writerow(['id', 'label'])
+    writer.writerows([i, f'label_{i}'] for i in range(10))
+```
+
+### JavaScript Object Notation (JSON)
+- 웹 언어인 Javascript의 데이터 객체 표현 방식
+  - 자료 구조 양식을 문자열로 표현
+  - 간겷하게 표현되어 사람과 컴퓨터 모두 읽기 편함
+  - 코드에서 불러오기 쉽고 파일 크기 역시 작은 편
+-> 그럼에도 Parser 직접 작성은 매우 귀찮음
+
+__json Library__
+```
+import json
+
+with open('test.json', 'r') as fd:
+    data = json.load(fd)
+
+data['hobbies][2]
+
+```
+
+```
+import json
+
+obj = {
+    "ID" : None, 
+    "bool": False,
+    "hobbies" : {
+        "sports" : [
+            "snowboard", "volley-ball"
+        ]
+    }
+}
+
+with open('test.json', 'w') as fd:
+    json.dump(obj, fd)
+```
+
+### eXtensible Markup Language (XML)
+- 데이터 구조와 의미를 설명하는 태그를 활용한 언어
+- <태그> 와 </태그> 사이에 값이 표시
+- HTML은 웹 페이지 표시를 위한 XML
+- 정규표현식으로 parsing 가능
+- 파이썬 기본 XML Parser는 다소 불편하기 때문에 일반적으로 Beautiful Soup을 사용
+
+### Yaml Ain't Markup Language (YAML)
+- E-mail 양식에서 개념을 얻은 데이터 직렬화 양식
+  - 들여쓰기로 구조체를 구분
+  - [Key:Value] 형식의 해시 및 [-item] 형식의 리스트 사용
+  - 공백 없는 텍스트는 따옴표 없이 사용가능
+  - .yaml 혹은 .yml 확장자
+- Python에서는 pyyaml 라이브러리를 사용
+
+## Setting & Exceptions & Logging
+
+### Programming Setting
+프로그램의 설정 값을 만들어 주고 싶다면?
+- 실행할 때마다 필요한 설정 값
+  - 딥러닝 학습 횟수(Epoch), 학습 계수(Learning rate)
+  - 사용하는 GPU 개수
+    -> Command Line Argumet(명령행 인자)로 입력
+
+- 한번 설정하면 수정을 잘 안 하는 설정 값
+  - 학습 자료 폴더 위치
+  - 웹 서버의 Listening Port
+    -> 설정 파일에서 불러들이기(txt, YAML, ConfigParser)
+
+__Command Line Argument__
+- Console 창에서 프로그램 실행 시 프로그램에 넘겨주는 인자 값
+- Command-line Interface(CLI)에서 흔히 쓰이는 방식
+- 파이썬에서 sys 라이브러리의 argv 속성으로 접근
+  - 공백 기준으로 잘라져 문자열 형태로 입력
+
+__argparser Library__
+- 인자 flag를 설정 가능하여 flag별 입력 가능 (긴 flat, 짧은 flag 활용)
+- 기본값 설정 가능
+- Type 설정 가능(문자열에서 변환)
+- Help 제공하여 사용자 편의 향상
+- 이 외 명령 줄 인자와 관련된 여러 도구 포함
+
+### Exception Handling
+- 프로그램 실행 중에는 다양한 예외/에러가 발생
+- 예외가 발생할 경우 대응 조치가 필요
+  - 불러올 파일이 없는 경우 -> 파일이 없음을 사용자에게 알림
+  - 서버와 연결이 끊김 -> 다른 서버로 Redirection
+- 예외가 발생할 수 있는 코드 -> (특정 예외 발생시) 대응코드 -> 계속 진행
+```
+try : 
+    <예외 발생 가능 코드>
+except <예외 클래스>:
+    <대응 코드>
+```
+|예외 이름|설명|발생 가능 예시|
+|---|---|---|
+|IndexError|List의 Index 범위를 넘어감|list[101]|
+|NameError|존재하지 않는 변수를 호출|not_exist +1|
+|ZeroDivisionError|0으로 숫자를 나눔|10 / 0|
+|ValueError|변환할 수 없는 문자열/숫자를 변환|float("abc")|
+|FileNotFoundError|존재하지 않는 파일 호출|open("not_exist.txt","r)|
+- 이 외에도 많은 내장 예외 존재
+
+- 파이썬 예외는 모두 BaseException을 상속
+- 대부분 try로 최대 Exception 단까지 잡음.
+- Exception Class를 상속하여 새로운 예외 생성 가능
+
+__Raising & Referencing Exceptions__
+- Raise 구문으로 예외 발생
+  - `raise <예외 객체>`
+- As 구문으로 잡힌 에러를 참조 가능
+  - `except <예외 클래스> as <예외 객체>`
+
+__Assertion__
+- 조건을 확인하여 참이 아닐 시 AssertError 발생. Error Msg 생성 가능
+  - `assert <조건>`
+  - `assert <조건>, <에러 메세지>`
+- 에러 메시지가 없을 경우 빈 칸으로 처리
+
+__Post-error Processing__
+- 아무 구문 없음 -> 일반진행
+```
+try:
+    functions()
+except SomeError as e:
+    print(e, "예외 발생")
+
+print("예외 이후")
+```
+- else 구문 -> 예외가 없을 경우 진행
+```
+try:
+    functions()
+except SomeError as e:
+    print(e, "예외 발생")
+else:
+    print("예외 이후")
+```
+- finally 구문 -> 모든 경우 진행
+```
+try:
+    functions()
+except SomeError as e:
+    print(e, "예외 발생")
+finally:
+    print("예외 이후")
+```
+
+### Logging
+- 프로그램이 일어나는 동안 발생했던 정보를 기록
+  - 결과 처리, 유저 접근, 예외 발생 등
+  - 기록된 로그 분석을 통한 디버깅 & 유저 패턴 파악
+- 기록 용도에 따른 차이
+  - 용도에 따라 출력 형식 및 필터링 필요
+- 어떻게 표출 할까?
+  - 표준 에러 출력 - 일시적
+  - 파일 출력 - 반 영구적
+
+__Logging Module__
+- 상황에 따라 다른 level의 로그 출력
+- DEBUG < INFO < WARNING < ERROR < Critical
+
+<img src="./img/logging.png"/>
+
+__Root Logging__
+- 기본 설정된 로깅
+- 표준 에러 출력 (stdout)
+- Warning 이상 출력
+- Basic config로 간단하게 설정 가능
+  - 로그를 기록할 파일 이름 `filename='test.log'`
+  - 로그 레벨을 설정으로 특정 레벨 치상 출력 `level=logging.INFO`
+
+__Logger Management__
+- 새로운 Logger 생성
+- getLogger로 새로운 이름의 Logger 생성
+- 이름이 같을 Logger가 존재할 경우 해당 객체를 들고 옴
+- 따로 설정이 되어 있지 않을 경우 Root의 설정을 상속함
 
