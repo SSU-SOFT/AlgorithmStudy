@@ -244,9 +244,6 @@ CPU는 일반적인 명령어를 사용하여 I/O작업을 수행. ex) mov, and,
 : 어떻게 Process에게 CPU의 사용을 할당할 것인가? Multiprogramming에 기반함. Memory내의 실행 준비된(Ready State)의 Process들 가운데 하나에게 CPU를 할당함.
 - 목표 : CPU사용률과 처리량의 최대화
 
-CPU Scheduling의 결정은 다음 시점에 따라 이루어짐.
-1) 
-
 ### 비선점형 스케줄링(Non-preemptive Scheduling)__
 : 이미 진행되고 있는 Process의 대해서 건들지 않고, 수행하는 Scheduling 기법.
 
@@ -282,10 +279,8 @@ __Multilevel Feedback Queue Scheduling__
 - Multilevel Queue에서 Process들이 서로 다른 Queue로 이동할 수 있도록 한 Scheduling 기법
 - Aging의 한 방법으로 사용됨.
 
-
 ## Inter Process Communication (IPC)
 : Process들 간에 데이터 및 정보를 주고 받기 위한 Mechanism
-
 
 ### IPC 방식
 
