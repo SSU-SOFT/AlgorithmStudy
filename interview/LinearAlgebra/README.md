@@ -59,9 +59,7 @@ $c_1v_1 + c_2v_2 + ... + c_pv_p$
 
 
 ### Span
-- 주어진 벡터로 이루어진 모든 선형 결합의 집합
-
-
+- 주어진 벡터로 이루어진 모든 선형 결합의 집합. 차원의 개념
 
 ### Matrix Multiplication
 
@@ -72,9 +70,6 @@ __Column Combinations of Vectors__
 __Row Combinations of Vectors__
 
 __Sum of Outer Products__
-
-
-
 
 
 ### Linear Independence
@@ -100,3 +95,53 @@ __Column Space of Matrix__
 
 __Rank of Matrix__
 - dimension of the column space of A
+
+## Least Squares
+- Feature보다 equation이 더 많은 경우 over-determined Linear System 인데, 이를 해결 하기 위한 방식.
+- Error 값의 제곱의 합(Sum of squared errors)이 최소가 되게 만드는 방법 
+
+__Inner Product(내적)__
+- inner product or dot product
+- u·v = u.T @ v = $‖u‖‖v‖cos\theta$
+
+__Vector Norm(크기)__
+- $‖v‖ = \sqrt{v·v} = \sqrt{v_1^2+v_2^2+...+v_n^2}$
+- $‖v‖^2 = v·v = v.T @ v$
+
+__Unit Vector(단위 벡터)__
+- u = $1\over{‖v‖}$v
+
+__Orthogonal Vector(직교 벡터)__
+- 벡터 u와 수직으로 만나는 벡터 v를 Orthogonal Vector 라고 하며, $u·v = 0$ 의 값을 갖는다.
+ 
+### Least Squares Problem
+- $Ax ≃ b$로 주어진 overdetermined System에서 least square solution은 $\hat{x} = \arg\min_x‖b-Ax‖ $
+- 기하학 적으로 보았을 때, Span으로 생성된 차원에 b 벡터에서 수선의 발을 내린 경우가 가장 $\min$한 error 값을 갖는다.
+  
+### Normal Equation (법선방정식)
+- $A^TA\hat{x} = A^Tb$로 부터 새로운 linear system인 $Cx = d$로 볼 수 있다. 
+- 따라서, $\hat{x} = {(A^TA)}^{-1}A^Tb$
+
+> __만약 $C=A^TA$가 invertible 하지 않다면?__
+> 원래 system은 No solution 이거나, infinitely many solution이다. 그러나, normal equation에서는 수선의 발이 근이 되게되는데, 수선의 발이 1개이거나 전체가 수선의 발인 경우만 존재한다. 즉, A는 linearly dependent 한 것이다.
+> 그러나, $C=A^TA$는 equation이 많아서 대체로 invertible하다.
+
+### Orthogonal Projection
+- $C=A^TA$가 invertible 할때, Orthogonal Projection b는 다음과 같이 설명된다.
+- $\hat{b} = f(b) = A\hat{x} = A{(A^TA)}^{-1}A^Tb = Cb$
+  - 그러나, ${(A^TA)}^{-1}$ 를 구하는 계산이 Complex 하기 때문에, 이를 구하기 위한 다른 방식이 존재.
+- Orthonomal basis를 구하기 위해 Gram-Shmidt process를 통해 QR factorization을 진행한다.
+
+__Orthogonal__ : 어떤 Vector를 골라도 수직인 것
+__Orthonomal set__ : orthogonal한 벡터가 모두 unit vector인 집합.
+
+
+## Gram-Shmidt process
+$$ 
+u_1 = \frac{v_1}{||v_1||} \rightarrow x_1 = ||v_1|| \; u_1
+\\
+u_2 = \frac{v_2}{||v_2||} = \frac{x_2 -  \frac{x_2 \cdot u_1}{u_1 \cdot u_1}u_1}{||v_2||} \rightarrow x_2 = \frac{x_2 \cdot u_1}{u_1 \cdot u_1}u_1 + ||v_2|| \; u_2
+\\
+u_3 = \frac{v_3}{||v_3||} =  \frac{x_3 -  \frac{x_3 \cdot u_1}{u_1 \cdot u_1}u_1  - \frac{x_3 \cdot u_2}{u_2 \cdot u_2}u_2 }{||v_3||} \rightarrow x_3 = \frac{x_3 \cdot u_1}{u_1 \cdot u_1}u_1 + \frac{x_3 \cdot u_2}{u_2 \cdot u_2}u_2 + ||v_3|| \; u_3  \\
+$$
+
