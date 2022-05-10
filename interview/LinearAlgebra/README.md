@@ -7,7 +7,7 @@
 - Matrix : 2차원의 숫자 배열 `[[1,6][3,4][5,2]]`
   - Row vector : a horizontal vector
   - Column vector : a vertical vector
-  - $A^T$ : Transpose of matrix (전치행렬)
+  - $$A^T$$ : Transpose of matrix (전치행렬)
   - `A[i][j]` : (i, j) th component
   - `A[i,]` : i-th row vector
   - `A[,j]` : j-th column vector
