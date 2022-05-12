@@ -1,6 +1,5 @@
 # 선형대수(Linear Algebra)
 
-## Elements in Linear Algebra
 ### Elements in Linear Algebra
 - Scalar : 크기만 있고 방향을 가지지 않은 물리량.
 - Vector : 크기와 방향을 둘다 가지고 있는 물리량.
@@ -144,4 +143,29 @@ u_2 = \frac{v_2}{||v_2||} = \frac{x_2 -  \frac{x_2 \cdot u_1}{u_1 \cdot u_1}u_1}
 \\
 u_3 = \frac{v_3}{||v_3||} =  \frac{x_3 -  \frac{x_3 \cdot u_1}{u_1 \cdot u_1}u_1  - \frac{x_3 \cdot u_2}{u_2 \cdot u_2}u_2 }{||v_3||} \rightarrow x_3 = \frac{x_3 \cdot u_1}{u_1 \cdot u_1}u_1 + \frac{x_3 \cdot u_2}{u_2 \cdot u_2}u_2 + ||v_3|| \; u_3  \\
 $$
+
+---
+
+## Eigenvectors and Eigenvalues
+
+__Eigenvector__
+- square Matrix중 크기는 바뀌지만 방향이 바뀌지 않는 벡터인 $Ax = \lambda x$ 를 만족하는 0벡터가 아닌 벡터. 
+- n x n 은 최대 n개의 Eigenvector를 갖으며, 그러기 위해서는 모든 벡터가 linearly independent 해야함.
+
+__Eigenvalue__
+- Eigenvectors를 만족하는 $\lambda$ 값
+
+> $(A-\lambda I)x = 0$를 만족하는 식을 만드려면, $(A-\lambda I)$의 역행렬이 없는 경우 즉, column들이 dependent하게 만들어야 하며, 람다의 대한 방정식을 풀면 non zero의 Eigenvector를 도출할 수 있다.
+
+__Characteristic Equation__
+- eigenvalues를 위해 $det(A-\lambda I) = 0$를 풀면 values를 구할 수 있으며, 이를 Characteristic Equation이라고 한다.
+
+### diagonalization (대각화)
+- `[[1,2], [3, 4]]` -> `[[5, 0], [0, 6]]`로 만들기 위해 $D = V^{=1}AV$ 수식을 사용. 
+- invertible한 V가 존재해야만 diagonalization이 가능.
+- V는 결국 EigenVector 가 되고, D는 EigenValue의 diagonal matrix로 표현된다.
+- 즉 V의 EigenVector 최대 갯수를 찾으면 Diagonalization이 가능하고, 만약 찾지 못한다면, invertible 하지 않기 때문에, Diagonalizatino이 불가능 하다.
+
+### Eigendecomposition (고유값 분해)
+- $A = VDV^{-1}$ 
 
