@@ -182,9 +182,29 @@ __Algebraic multiplicity__
 - EigenValue determine의 $\lambda$ 방정식이 0을 만족하는 근의 갯수 총합 == 차수와 동일(?)
 - 중근이 하나도 없으면 1개씩 나옴.
 
-
 __Geometrix multiplicity__
 - $\lambda$의 차원
 - 모든 geometrix multiplicity는 non-zero인 벡터가 적어도 1개는 존재함.
 - 최대 값은 Algebraic multiplicity의 최댓값이 된다.
 - 각 col은 Linearly independent 하다.
+
+__Symmectric Metrix Eigendecomposition__
+- 대칭 행렬의 고윳값 분해는 특이한 점이 있다. 대칭 행렬의 경우 고유벡터가 서로 직교하는 성질을 보이기 때문이다. $A = A^T$
+- $A = VAV^{-1} = A^T = {VAV^{-1}}^T = {V^T}^{-1}AV^T$
+- 즉, $V^{-1} = V^T$를 성립한다.
+- 일반적으로 대칭행렬의 고윳값을 보아둔 행렬은 Q로 쓴다. $A = QAQ^T$
+  
+
+__Singular Value Decomposition__
+- 임의의 $m \times n$ 차원의 행렬 A에 대하여 다음과 같이 행렬을 분해 하는 방법 
+$$
+A = U\Sigma V^T \\
+A : m \times n 의 직사각형 행렬 \\
+U : m \times m 의 orthogonal matrix \\
+\Sigma : m \times n 의 diagonal matrix \\
+V : n \times n 의 orthogonal matrix \\
+$$
+- 직교하는 벡터 집합에 대하여, 선형 변환 후에 그 크기는 변하지만 여전히 직교할 수 있게 되는 직교 집합은? 그리고 그 결과는?
+
+- 특이값 분해는 분해되는 과정보다 분해된 행렬을 다시 조합하는 과정에서 응용력이 빛을 발한다.
+- A 행렬을 특이한 p개만을 이용해 A' 라는 행렬로 부분 복원 할 수 있다.
